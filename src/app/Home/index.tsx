@@ -1,15 +1,24 @@
-import { View, Image, TouchableOpacity, Text } from 'react-native';
+import {
+  View,
+  Image,
+  TouchableOpacity,
+  Text,
+  ScrollView,
+  FlatList,
+} from 'react-native';
 import { Button } from '@/components/Button';
-import { styles } from './styles';
 import { Item } from '@/components/Item';
 import { Input } from '@/components/Imput';
 import { Filter } from '@/components/Filter';
+import { styles } from './styles';
 import { FilterStatus } from '@/types/FilterStatus';
 import { Header } from 'react-native/Libraries/NewAppScreen';
 
 const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE];
+const ITEMS = Array.from({ length: 100 }).map((_, index) => String(index));
 
 export default function Home() {
+  console.log('ITEMS', ITEMS);
   return (
     <View style={styles.container}>
       <Image source={require('@/assets/logo.png')} style={styles.logo} />
@@ -30,10 +39,16 @@ export default function Home() {
           </TouchableOpacity>
         </View>
 
-        <Item
-          data={{ status: FilterStatus.DONE, description: 'Café' }}
-          onStatus={() => console.log('mudar o status')}
-          onRemove={() => console.log('remover')}
+        <FlatList
+          data={ITEMS}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => (
+            <Item
+              data={{ status: FilterStatus.DONE, description: item }}
+              onStatus={() => console.log('mudar o status')}
+              onRemove={() => console.log('remover')}
+            />
+          )}
         />
       </View>
     </View>
