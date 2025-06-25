@@ -1,9 +1,12 @@
-import { View, Image } from 'react-native';
+import { View, Image, TouchableOpacity, Text } from 'react-native';
 import { Button } from '@/components/Button';
 import { styles } from './styles';
 import { Input } from '@/components/Imput';
 import { Filter } from '@/components/Filter';
 import { FilterStatus } from '@/types/FilterStatus';
+import { Header } from 'react-native/Libraries/NewAppScreen';
+
+const FILTER_STATUS: FilterStatus[] = [FilterStatus.PENDING, FilterStatus.DONE];
 
 export default function Home() {
   return (
@@ -14,9 +17,17 @@ export default function Home() {
         <Input placeholder="O que você precisa comprar?" />
         <Button title="Entrar" />
       </View>
+
       <View style={styles.content}>
-        <Filter status={FilterStatus.DONE} isActive />
-        <Filter status={FilterStatus.PENDING} isActive={false} />
+        <View style={styles.header}>
+          {FILTER_STATUS.map((status) => (
+            <Filter key={status} status={status} isActive />
+          ))}
+
+          <TouchableOpacity style={styles.clearButton}>
+            <Text style={styles.clearText}>Limpar</Text>
+          </TouchableOpacity>
+        </View>
       </View>
     </View>
   );
